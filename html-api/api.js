@@ -38,12 +38,13 @@ class XScroll extends HTMLElement {
 			this.style.overflow="auto";
 			return this;
 		}
+		this.inset = (this.getAttribute("data-scroll-inset") || "false") == "true" ? true:false;
 		this.scrollX = (this.getAttribute("data-scroll-x") || "false") == "true" ? true:false;
 		this.scrollY = (this.getAttribute("data-scroll-y") || "true") == "false" ? false:true;
 		if(this.scrollX) {
 			this.scrollBarX = document.createElement("x--scroll-bar")
 			this.scrollBarX.setAttribute("data-dir", "x")
-			this.scrollBarX.addEventListener("click", function(ev) {this._click("x", ev)}.bind(this))
+			this.scrollBarX.addEventListener("mousedown", function(ev) {this._click("x", ev)}.bind(this))
 			this.appendChild(this.scrollBarX)
 			this.thumbX = document.createElement("x--scroll-thumb")
 			this._dragX = function (ev) {this._drag("x", ev)}.bind(this)
@@ -53,7 +54,7 @@ class XScroll extends HTMLElement {
 		if(this.scrollY) {
 			this.scrollBarY = document.createElement("x--scroll-bar")
 			this.scrollBarY.setAttribute("data-dir", "y")
-			this.scrollBarY.addEventListener("click", function(ev) {this._click("y", ev)}.bind(this))
+			this.scrollBarY.addEventListener("mousedown", function(ev) {this._click("y", ev)}.bind(this))
 			this.appendChild(this.scrollBarY)
 			this.thumbY = document.createElement("x--scroll-thumb")
 			this._dragY = function (ev) {this._drag("y", ev)}.bind(this)
@@ -76,12 +77,13 @@ class XScroll extends HTMLElement {
 			this._clientHeight = this.clientHeight;
 			this._offsetHeight = this.offsetHeight;
 			this._scrollHeight = this.scrollHeight;
+			if(!this.inset && this.scrollX) this._scrollHeight += this.scrollBarX.scrollHeight;
 			this.heightDifference = this._scrollHeight-this._offsetHeight
 			this.ratioY = this._offsetHeight / this._scrollHeight
 			this.thumbHeight = this.ratioY*this._clientHeight
-			if(this.scrollX)
+			if(this.scrollX) {
 				this.thumbHeight = this.ratioY*(this._clientHeight-this.scrollBarX.scrollHeight)
-			else 
+			} else 
 				this.thumbHeight = this.ratioY*this._clientHeight
 			this.thumbY.style.height = this.thumbHeight + "px"
 			this.scroll(0, "y")
@@ -91,14 +93,15 @@ class XScroll extends HTMLElement {
 			this._clientWidth = this.clientWidth;
 			this._offsetWidth = this.offsetWidth;
 			this._scrollWidth = this.scrollWidth;
+			if(!this.inset && this.scrollY) this._scrollWidth += this.scrollBarY.scrollWidth;
+			this.widthDifference = this._scrollWidth-this._offsetWidth;
 			this.ratioX = this._offsetWidth / this._scrollWidth
 			if(this.scrollY) {
-				var ywidth = this.scrollBarY.scrollWidth;
-				this.thumbWidth = this.ratioX*(this._clientWidth-1.5*ywidth)
-				this.widthDifference = this._scrollWidth-this._offsetWidth+ywidth
+				//var ywidth = this.scrollBarY.scrollWidth;
+				this.thumbWidth = this.ratioX*(this._clientWidth-this.scrollBarY.scrollWidth)
+				//this.widthDifference = this._scrollWidth-this._offsetWidth+ywidth
 			} else {
 				this.thumbWidth = this.ratioX*this._clientWidth
-				this.widthDifference = this._scrollWidth-this._offsetWidth
 			}
 			this.thumbX.style.width = this.thumbWidth + "px"
 			this.scroll(0, "x")

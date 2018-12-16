@@ -80,11 +80,11 @@ x-scroll {
 	position: relative;
 }
 
-x-scroll[data-scroll-x="true"] {
+x-scroll[data-scroll-x="true"][data-scroll-y="false"]:not([data-scroll-inset="true"]) {
 	padding-bottom: var(--scroll-bar-thickness);
 }
 
-x-scroll:not([data-scroll-y="false"]) {
+x-scroll:not([data-scroll-y="false"]):not([data-scroll-x="true"]):not([data-scroll-inset="true"]) {
 	padding-right: var(--scroll-bar-thickness);
 }
 
