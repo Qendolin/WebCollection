@@ -7,11 +7,9 @@
  *  Wendelin Muth
  */
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ const API_PATH="";
 
-
-foreach (glob("classes/*.php") as $filename)
+foreach (glob($_SERVER['DOCUMENT_ROOT'] . API_PATH."/PHP/classes/*.php") as $filename)
 {
     require $filename;
 }
@@ -115,7 +113,6 @@ function GetStyle($site, $apiLinks) {
 
     $style = "<style>";
     $css = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/CSS/main.css");
-    $css .= file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/CSS/icon.css");
 
     if (BasicTools::IsSenseful($site)) {
         if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/CSS/" . $site . ".css")) {
@@ -136,27 +133,7 @@ function GetStyle($site, $apiLinks) {
         }
     }
 
-    if (($themeName = BasicTools::Setting("theme")) !== false) {
-        $css .= "/*themestart*/";
-        $css .= file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/CSS/theme-" . $themeName . ".css");
-        $css .= "/*themeend*/";
-    }
-
-    if (($opacity = BasicTools::Setting("timeOverlayOpacity")) !== false) {
-        $css .= ".time-overlay {
-            background-color: rgba(0, 0, 0, $opacity);
-        }";
-    }
-    if (($bgcolor = BasicTools::Setting("backgroundColor")) !== false) {
-        $css .= ":root {
-    --col-background:$bgcolor;
-    }";
-    }
-    if (($colHide = BasicTools::Setting("timeColHide")) !== false) {
-        $css .= ".time-wrapper {
-    display:$bgcolor;
-    }";
-    }
+  
 
     $css = preg_replace('/((["\']).*?\2)|(\s+(?=\s)|\r?\n)/', "$1", $css);
 
