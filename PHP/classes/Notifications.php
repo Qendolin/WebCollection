@@ -8,7 +8,6 @@
  */
 class Notifications {
 
-    const TEST_APP_ID = "81f2e245-ff48-4ed3-969a-fdd1e6f2cc32";//fill in
     const APP_ID = "a454f152-7451-404f-93da-258c36ba95a3";//fill in
     const STANDARD_ICON = "https://jptr.ml/DATA/logo256.png";//fill in
     const STANDARD_BADGE = "https://jptr.ml/DATA/logo192alpha.png";//fill in
