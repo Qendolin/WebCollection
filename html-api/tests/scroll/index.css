@@ -1,0 +1,8 @@
+:root {
+	--scroll-bar-thickness: 17px;
+	--scroll-bar-color: #F008;
+}
+
+x--scroll-thumb {
+	border-radius: var(--scroll-bar-thickness)
+}
