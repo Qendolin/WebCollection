@@ -9,7 +9,12 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-//require all
+
+
+foreach (glob("classes/*.php") as $filename)
+{
+    require $filename;
+}
 
 session_start();
 date_default_timezone_set("Europe/Vienna");
