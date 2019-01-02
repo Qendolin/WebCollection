@@ -1,5 +1,5 @@
 <?php
-//api adapted
+
 /**
  *  Copyright ©2018
  *  Written by:

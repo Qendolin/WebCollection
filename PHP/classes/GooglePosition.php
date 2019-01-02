@@ -1,5 +1,5 @@
 <?php
-//api adapted
+
 class GooglePosition {
 
  function GetPosition($search,$searchedLink){
@@ -23,5 +23,5 @@ for ($site = 0; $site < 1000; $site += 10) {
         }
     }
 }
-return null; //nicht in den ersten 100 Seiten!
+return "not found on  the first 100 stites"; 
 }}

@@ -1,5 +1,5 @@
 <?php
-//api adapted
+
 /**
  *  Copyright ©2018
  *  Written by:
@@ -9,7 +9,6 @@
 class BasicTools {
     const DEBUG_MODE = true;
     static $multiStates = array();
-    static  $settings;
     public static function PostMultiTest($name) {
         $values = explode(",", self::PostTest($name));
         if (!self::IsSenseful(self::$multiStates[$name])) {

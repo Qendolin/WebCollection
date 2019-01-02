@@ -16,4 +16,6 @@ should work for api (except senseful errorcodes) as good as before
 
 finished:
 DatabaseQuery + Base
-
+Easycurl
+Notifications
+GooglePosition

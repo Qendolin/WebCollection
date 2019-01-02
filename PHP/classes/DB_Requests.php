@@ -1,5 +1,5 @@
 <?php
-//api adapted
+
 class DB_Requests {
     public  function GetMessages($type, $count, $seen) {
         if (!MySecure::IsAllowed(5)) {

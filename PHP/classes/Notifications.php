@@ -1,5 +1,5 @@
 <?php
-//api adapted
+
 /**
  *  Copyright ©2018
  *  Written by:
@@ -8,9 +8,15 @@
  */
 class Notifications {
 
-    const APP_ID = "a454f152-7451-404f-93da-258c36ba95a3";//fill in
-    const STANDARD_ICON = "https://jptr.ml/DATA/logo256.png";//fill in
-    const STANDARD_BADGE = "https://jptr.ml/DATA/logo192alpha.png";//fill in
+    private $appId ;
+    private $standardIcon;
+    private $standardBadge;
+
+    function __construct($appId,$standardIcon,$standardBadge){
+        $this->appId=$appId;
+        $this->standardIcon=$standardIcon;
+        $this->standardBadge=$standardBadge;
+    }
 
     public  function Notify(
         $included=null,
@@ -20,16 +26,16 @@ class Notifications {
         $headings = null,
         $url = null,
         $filters = null,
-        $icon = self::STANDARD_ICON,
+        $icon = $this->standardIcon,
         $image = null,
-        $badge = self::STANDARD_BADGE,
+        $badge = $this->standardBadge,
         $minDateTime = null,
         $delay = null,
         $time = null,
         $lifeTime = null,
         $priority = null
     ) {
-        return self::AskOnesignal(self::BuildJson($included, $excluded, $content, $contentTemplate, $headings, $url, $filters, $icon, $image, $badge, $minDateTime, $delay, $time, $lifeTime, $priority));
+        return $this->AskOnesignal($this->BuildJson($included, $excluded, $content, $contentTemplate, $headings, $url, $filters, $icon, $image, $badge, $minDateTime, $delay, $time, $lifeTime, $priority));
     }
 
     private  function AskOnesignal($json) {
@@ -60,9 +66,9 @@ class Notifications {
         $headings = null,
         $url = null,
         $filters = null,
-        $icon = self::STANDARD_ICON,
+        $icon = $this->standardIcon,
         $image = null,
-        $badge = self::STANDARD_BADGE,
+        $badge = $this->standardBadge,
         $minDateTime = null,
         $delay = null,
         $time = null,
@@ -73,11 +79,9 @@ class Notifications {
         }
 
         $arr = array();
-        if ("dev.jptr.ml" == $_SERVER["SERVER_NAME"]) {
-            $arr["app_id"] = self::TEST_APP_ID;
-        } else {
-            $arr["app_id"] = self::APP_ID;
-        }
+      
+        $arr["app_id"] = $this->appId;
+        
 
         if (BasicTools::IsSenseful($included)) {
             $arr["included_segments"] = $included;
