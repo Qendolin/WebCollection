@@ -7,7 +7,7 @@
  *  Wendelin Muth
  */
 const STANDARDDATABASE = 0;
-class DB_Query {
+abstract class DB_Query {
     static function AskDB() {
         $db = func_get_arg(0);
         $statement = func_get_arg(1);
@@ -28,7 +28,7 @@ class DB_Query {
                 $conn = self::OpenConn();
                 break;
             default:
-                trigger_error("#error005", E_USER_ERROR);
+                 $conn = self::OpenConn($db);
                 break;
             }
             $stmt = $conn->prepare($statement);
@@ -77,13 +77,14 @@ class DB_Query {
         }
     }
 
-    private static function OpenConn() {
-        $conn = new PDO('mysql:host=localhost;dbname=u100444db1', 'u100444db1', 'easyWeb+1');//fill in
+    abstract protected static function OpenConn($db=0);
+    /* {
+        $conn = new PDO('mysql:host=localhost;dbname=dbname', 'username', 'password');
         if (!$conn) {
             trigger_error("#error005", E_USER_ERROR);
         }
         return $conn;
-    }
+    }*/
 
     private static function SecureParam($param) {
         return stripslashes(addslashes($param));
