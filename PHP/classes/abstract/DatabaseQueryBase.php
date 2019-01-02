@@ -7,7 +7,7 @@
  *  Wendelin Muth
  */
 const STANDARDDATABASE = 0;
-abstract class DB_Query {
+abstract class DatabaseQueryBase {
      function AskDB() {
         $db = func_get_arg(0);
         $statement = func_get_arg(1);
@@ -90,14 +90,14 @@ abstract class DB_Query {
         return stripslashes(addslashes($param));
     }
 
-     function TestLength($text, $maxLength) {
+    private  function TestLength($text, $maxLength) {
         if (strlen($text) > $maxLength) {
             trigger_error("#error019|a", E_USER_ERROR);
         }
         return self::TestString($text);
     }
 
-     function TestString($text) {
+    private function TestString($text) {
         if (!BasicTools::IsSenseful($text)) {
             trigger_error("#error019|b", E_USER_ERROR);
         }
