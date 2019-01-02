@@ -82,6 +82,6 @@ class TableChange {
         $this->DeleteOld();
     }
 
-    public static function AskForTables() { //
+    public  function AskForTables() { //
         //asks for 3-5 foreign tables
     }}

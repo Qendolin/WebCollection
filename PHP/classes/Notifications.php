@@ -12,7 +12,7 @@ class Notifications {
     const STANDARD_ICON = "https://jptr.ml/DATA/logo256.png";//fill in
     const STANDARD_BADGE = "https://jptr.ml/DATA/logo192alpha.png";//fill in
 
-    public static function Notify(
+    public  function Notify(
         $included=null,
         $excluded = null,
         $content = null,
@@ -32,7 +32,7 @@ class Notifications {
         return self::AskOnesignal(self::BuildJson($included, $excluded, $content, $contentTemplate, $headings, $url, $filters, $icon, $image, $badge, $minDateTime, $delay, $time, $lifeTime, $priority));
     }
 
-    private static function AskOnesignal($json) {
+    private  function AskOnesignal($json) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
         if ("dev.jptr.ml" == $_SERVER["SERVER_NAME"]) {
@@ -52,7 +52,7 @@ class Notifications {
         return $response;
     }
 
-    private static function BuildJson(
+    private  function BuildJson(
         $included=null,
         $excluded = null,
         $content = null,

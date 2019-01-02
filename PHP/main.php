@@ -15,7 +15,6 @@ foreach (glob($_SERVER['DOCUMENT_ROOT'] . API_PATH."/PHP/classes/*.php") as $fil
 }
 
 session_start();
-date_default_timezone_set("Europe/Vienna");
 
 if (!BasicTools::IsSenseful($_COOKIE["timeoutVar"])) {
     MySecure::SetCookie("timeoutVar", "set", 60 * 60 * 24 * 365);
@@ -27,9 +26,6 @@ if (!BasicTools::IsSenseful($_COOKIE["timeoutVar"])) {
         trigger_error("#error003", E_USER_ERROR);
     }
 }
-
-header_remove("Cache-Control");
-header("Cache-Control: no-cache, must-revalidate", true);
 
 
 function BaseStart($link) {

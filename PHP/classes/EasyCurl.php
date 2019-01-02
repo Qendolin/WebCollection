@@ -7,9 +7,9 @@
  *  Wendelin Muth
  */
 class EasyCurl {
-    private static $curl = null;
+    private  $curl = null;
 
-    public static function AskCurl($url, $post = null) {
+    public  function AskCurl($url, $post = null) {
         if (null == self::$curl) {
             self::MakeCurlInstance();
         }
@@ -24,7 +24,7 @@ class EasyCurl {
         return curl_exec(self::$curl);
     }
 
-    private static function MakeCurlInstance() {
+    private  function MakeCurlInstance() {
         self::$curl = curl_init();
     }
 }

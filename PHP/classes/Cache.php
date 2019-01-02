@@ -11,7 +11,7 @@ class Cache {
     const MAKE_CACHE = true;
     const RENEW_CACHE = true;
     
-    private static function AskUntis($url, $post = null, $try = 0, $isFuckinDelete = false) {
+    private  function AskUntis($url, $post = null, $try = 0, $isFuckinDelete = false) {
         if (strpos($url, self::INPUT_SERVER) !== false) {
             $url = str_replace(self::INPUT_SERVER, BasicTools::TestSessVar("server"), $url);
         }
@@ -112,13 +112,13 @@ class Cache {
  
 
   
-    private static function CleanCache() {
+    private  function CleanCache() {
         DB_Query::AskDB(STANDARDDATABASE, "DELETE from cache_querys where cache_querys.school in (select a.school from (select * from cache_querys) as a join cache_info where cache_info.lastLook < DATE_SUB(NOW(), INTERVAL 30 DAY) and a.school like concat(cache_info.school,'%'))");
         DB_Query::AskDB(STANDARDDATABASE, "DELETE from cache_info where lastLook < DATE_SUB(NOW(), INTERVAL 30 DAY)");
     }
 
    
-    private static function AskFor($url, $post = null, $forwholeschool = true, $nevercache = false, $isFuckinDelete = false) {
+    private  function AskFor($url, $post = null, $forwholeschool = true, $nevercache = false, $isFuckinDelete = false) {
         $url = str_replace(self::INPUT_SERVER, BasicTools::TestSessVar("server"), $url);
         if (!$forwholeschool && !BasicTools::IsSenseful($_SESSION["user"])) {
             trigger_error("#warning001", E_USER_WARNING);
@@ -147,7 +147,7 @@ class Cache {
         return $answer;
     }
 
-    private static function GetCache($school, $query, $forwholeschool) {
+    private  function GetCache($school, $query, $forwholeschool) {
         self::TestTopicality($school);
         if (!$forwholeschool) {
             $school = $school . BasicTools::TestSessVar("user");
@@ -161,7 +161,7 @@ class Cache {
 
    
 
-    private static function SetCache($query, $answer, $forwholeschool) {
+    private  function SetCache($query, $answer, $forwholeschool) {
         $school = BasicTools::TestSessVar("school");
         if (!$forwholeschool) {
             $school = $school . BasicTools::TestSessVar("user");
@@ -172,7 +172,7 @@ class Cache {
         }
     }
 
-    private static function TestTopicality($school) {
+    private  function TestTopicality($school) {
         if (!self::$topicalityTested) {
             self::$topicalityTested = true;
             if (self::RENEW_CACHE) {
@@ -206,7 +206,7 @@ class Cache {
         }
     }
 
-    static function GetlastTruncate($school) {
+     function GetlastTruncate($school) {
         self::TestTopicality($school);
         $result = DB_Query::AskDB(STANDARDDATABASE, "Select lastLook,CURRENT_TIMESTAMP,lastTruncate from cache_info where school=?", $school);
         if (is_array($result) && !count($result) == 0) {

@@ -22,11 +22,11 @@ class MySecure {
      */
     private const KEY = "g³D1S#Yẞ:4Üj";
 
-    public static function Hash($unhashed) {
+    public  function Hash($unhashed) {
         return password_hash($unhashed, PASSWORD_BCRYPT);
     }
 
-    public static function IsAllowed($neededrank) {
+    public  function IsAllowed($neededrank) {
         if (!BasicTools::IsSenseful($_SESSION["rank"])) {
             return false;
         }
@@ -38,7 +38,7 @@ class MySecure {
         return false;
     }
 
-    public static function MakeCode() {
+    public  function MakeCode() {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -48,14 +48,14 @@ class MySecure {
         return $randomString;
     }
 
-    public static function SetCookie($name, $value, $expire = -1, $path = "/") {
+    public  function SetCookie($name, $value, $expire = -1, $path = "/") {
         if (-1 === $expire) {
             $expire = (time() + 60 * 60 * 24 * 365);
         }
         setcookie($name, self::Encrypt($value, "cookie"), $expire, $path);
     }
 
-    public static function Encrypt($string, $key) {
+    public  function Encrypt($string, $key) {
         if (!BasicTools::IsSenseful($key)) {
             trigger_error("Encrypt Error", E_USER_ERROR);
         }
@@ -63,11 +63,11 @@ class MySecure {
         return base64_encode($result);
     }
 
-    public static function ReadCookie($name) {
+    public  function ReadCookie($name) {
         return self::Decrypt($_COOKIE[$name], "cookie");
     }
 
-    public static function Decrypt($string, $key) {
+    public  function Decrypt($string, $key) {
         if (!BasicTools::IsSenseful($key)) {
             trigger_error("Decrypt Error", E_USER_ERROR);
         }
@@ -75,14 +75,14 @@ class MySecure {
         $result = openssl_decrypt($string, "AES-256-CBC", $key, null, self::KEY);
         return $result;
     }
-    static function AddEmp($username, $rank, $school, $password, $uUsername, $uPassword) {
+     function AddEmp($username, $rank, $school, $password, $uUsername, $uPassword) {
         if (self::IsAllowed(7)) {
             $uPassword = self::Encrypt($uPassword, $password);
             $password = self::Hash($password);
             DB_Query::AskDB(STANDARDDATABASE, "Insert into login_employees values(null,?,?,?,?,?,?);", $uUsername, $username, $rank, $school, $uPassword, $password);
         }
     }
-    static function EditEmp($username, $rank, $school, $password, $uUsername, $uPassword) {
+     function EditEmp($username, $rank, $school, $password, $uUsername, $uPassword) {
         if (self::IsAllowed(7)) {
             $uPassword = self::Encrypt($uPassword, $password);
             $password = self::Hash($password);
@@ -90,7 +90,7 @@ class MySecure {
         }
 
     }
-    static function EmpLogin($username, $password) {
+     function EmpLogin($username, $password) {
         $res = DB_Query::AskDB(STANDARDDATABASE, "SELECT  `wuUsername`,`rank`,`school`,`wuPassword`,`password` FROM `login_employees` WHERE username=?", $username);
         if (false == $res || count($res) == 0) {
             return false;
@@ -110,13 +110,13 @@ class MySecure {
         return true;
     }
 
-    public static function VerifyHash($hashed, $unhashed) {
+    public  function VerifyHash($hashed, $unhashed) {
         return password_verify($unhashed, $hashed);
     }
 
    
 
-    public static function IsEmp() {
+    public  function IsEmp() {
         if (BasicTools::IsSenseful($_SESSION["rank"])) {
             if ($_SESSION["rank"] > 0) {
                 return true;
@@ -125,7 +125,7 @@ class MySecure {
 
         return false;
     }
-    private static function TryLogin(){
+    private  function TryLogin(){
         return true;//fill in (add normal login for emps)
     }
 }

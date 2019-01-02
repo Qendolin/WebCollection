@@ -1,7 +1,7 @@
 <?php
 //api adapted
 class DB_Requests {
-    public static function GetMessages($type, $count, $seen) {
+    public  function GetMessages($type, $count, $seen) {
         if (!MySecure::IsAllowed(5)) {
             trigger_error("#error025", E_USER_ERROR);
         }
@@ -12,10 +12,10 @@ class DB_Requests {
         }
         echo json_encode($res, true);
     }
-    public static function DelMessage($id){
+    public  function DelMessage($id){
         //unfin
     }
-    public static function SeeMessage($id){
+    public  function SeeMessage($id){
         //unfin
     }
 }

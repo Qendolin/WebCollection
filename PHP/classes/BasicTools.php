@@ -8,9 +8,9 @@
  */
 class BasicTools {
     const DEBUG_MODE = true;
-    static $multiStates = array();
-    static $settings;
-    public static function PostMultiTest($name) {
+     $multiStates = array();
+     $settings;
+    public  function PostMultiTest($name) {
         $values = explode(",", self::PostTest($name));
         if (!self::IsSenseful(self::$multiStates[$name])) {
             self::$multiStates[$name] = 0;
@@ -24,19 +24,19 @@ class BasicTools {
         return $values[self::$multiStates[$name]];
     }
 
-    public static function Utf8Strrev($str) {
+    public  function Utf8Strrev($str) {
         preg_match_all('/./us', $str, $ar);
         return implode(array_reverse($ar[0]));
     }
 
-    public static function PostTest($name) {
+    public  function PostTest($name) {
         if (!self::IsSenseful($_POST[$name])) {
             trigger_error("#error010|$name", E_USER_ERROR);
         }
         return $_POST[$name];
     }
 
-    public static function IsSenseful(&$var) {
+    public  function IsSenseful(&$var) {
         if (isset($var)) {
             if (false == $var) {
                 if (0 === $var || "0" === $var || 0.0 === $var || false === $var || is_array($var)) {
@@ -49,14 +49,14 @@ class BasicTools {
         return false;
     }
 
-    public static function PostTestOpt($name, $sonst = "-1") {
+    public  function PostTestOpt($name, $sonst = "-1") {
         if (!self::IsSenseful($_POST[$name])) {
             return $sonst;
         }
         return $_POST[$name];
     }
 
-    public static function Log($text, $debug = false) {
+    public  function Log($text, $debug = false) {
         if ($debug) {
             if (self::DEBUG_MODE) {
                 if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/LOG/_" . $debug . "log.txt")) {
@@ -81,7 +81,7 @@ class BasicTools {
     }
     
    
-    public static function TestSessVar($name, $throwError = true) {
+    public  function TestSessVar($name, $throwError = true) {
         if (self::IsSenseful($_SESSION[$name])) {
             return $_SESSION[$name];
         }
@@ -95,7 +95,7 @@ class BasicTools {
 
     }
 
-    public static function WriteArray($array, $d = 0) {
+    public  function WriteArray($array, $d = 0) {
         if (100 === $d) {
             die("<h1>To Much Inner Arrays</h1>");
         }
@@ -116,7 +116,7 @@ class BasicTools {
         }
     }
 
-    public static function WriteText($text, $return = false) {
+    public  function WriteText($text, $return = false) {
         if ($return) {
             return htmlspecialchars($text);
         }

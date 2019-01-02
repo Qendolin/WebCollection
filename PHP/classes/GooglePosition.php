@@ -2,7 +2,7 @@
 //api adapted
 class GooglePosition {
 
-static function GetPosition($search,$searchedLink){
+ function GetPosition($search,$searchedLink){
     $url = "https://www.google.at/search?q=" . str_replace(" ", "%20", $search);
 
 

@@ -8,7 +8,7 @@
  */
 const STANDARDDATABASE = 0;
 abstract class DB_Query {
-    static function AskDB() {
+     function AskDB() {
         $db = func_get_arg(0);
         $statement = func_get_arg(1);
         if (func_num_args() < 3) {
@@ -77,7 +77,7 @@ abstract class DB_Query {
         }
     }
 
-    abstract protected static function OpenConn($db=0);
+    abstract protected  function OpenConn($db=0);
     /* {
         $conn = new PDO('mysql:host=localhost;dbname=dbname', 'username', 'password');
         if (!$conn) {
@@ -86,18 +86,18 @@ abstract class DB_Query {
         return $conn;
     }*/
 
-    private static function SecureParam($param) {
+    private  function SecureParam($param) {
         return stripslashes(addslashes($param));
     }
 
-    static function TestLength($text, $maxLength) {
+     function TestLength($text, $maxLength) {
         if (strlen($text) > $maxLength) {
             trigger_error("#error019|a", E_USER_ERROR);
         }
         return self::TestString($text);
     }
 
-    static function TestString($text) {
+     function TestString($text) {
         if (!BasicTools::IsSenseful($text)) {
             trigger_error("#error019|b", E_USER_ERROR);
         }
