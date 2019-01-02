@@ -1,3 +1,32 @@
+:root {
+/*	COLORS			*/
+	--col-primary: #fff;
+	--col-primary-darker: #eee;
+	--col-primary-dark: #888;
+	--col-secondary: rgb(169, 202, 240);
+	--col-secondary-darker: rgb(131, 157, 187);
+	--col-affirmative: rgb(86, 165, 255);
+	--col-negative: #888;
+/*	LAYER			*/
+	--lcol-far-back: var(--col-primary-dark);
+	--lcol-back: var(--col-primary-darker);
+	--lcol-middle: var(--col-primary);
+	--lcol-front: var(--col-secondary);
+	--lcol-far-front: var(--col-secondary-darker);
+/*	LAYOUT			*/
+	--lo-padding: 5px;
+/*	3D				*/
+	--shadow-size: 4px;
+/*	SCROLLING		*/
+	--scroll-speed: .08s;
+	--scroll-bar-thickness: 17px;
+	--scroll-bar-color: #e1e1e1;
+	--scroll-thumb-color: #c1c1c1;
+	--scroll-thumb-hover-color: #b1b1b1;
+	--scroll-bar-padding: 2px;
+}
+	
+
 * {
 	padding: 0;
 	margin: 0;
@@ -18,27 +47,9 @@ body, html {
 	overflow: hidden;
 }
 
-:root {
-/*	COLORS			*/
-	--col-primary: #fff;
-	--col-primary-darker: #eee;
-	--col-primary-dark: #888;
-	--col-affirmative: rgb(86, 165, 255);
-	--col-negative: #888;
-/*	3D				*/
-	--shadow-size: 4px;
-/*	SCROLLING		*/
-	--scroll-speed: .08s;
-	--scroll-bar-thickness: 17px;
-	--scroll-bar-color: #e1e1e1;
-	--scroll-thumb-color: #c1c1c1;
-	--scroll-thumb-hover-color: #b1b1b1;
-	--scroll-bar-padding: 2px;
-}
-
 x-background {
 	display: grid;
-	background-color: var(--col-primary-darker);
+	background-color: var(--lcol-back);
 	width: 100%;
 	height: 100%;
 	padding: 10px;
@@ -158,4 +169,68 @@ input[type=file]:focus, input[type=month]:focus, input[type=number]:focus, input
 input[type=search]:focus, input[type=tel]:focus, input[type=text]:focus, input[type=time]:focus,
 input[type=url]:focus, input[type=week]:focus {
 	border-bottom-color: var(--col-affirmative);
+}
+
+.layout-border {
+	display: grid;
+	grid-template-areas: 
+		"top top top"
+		"left center right"
+		"bottom bottom bottom";
+	grid-template-rows: max-content minmax(0, 100%) max-content;
+	grid-template-columns: minmax(0, max-content) minmax(0, 100%) minmax(0, max-content);
+}
+
+.layout-border.def > main {
+	grid-area: center;
+}
+
+.layout-border.def > aside {
+	grid-area: right;
+}
+
+.layout-border.def > header {
+	grid-area: top;
+}
+
+.layout-border.def > footer {
+	grid-area: bottom;
+}
+
+.align-right {
+	grid-area: right;
+}
+.align-left {
+	grid-area: left;
+}
+.align-center {
+	grid-area: center;
+}
+.align-top {
+	grid-area: top;
+}
+.align-bottom {
+	grid-area: bottom;
+}
+
+aside, main {
+	padding: var(--lo-padding);
+}
+
+aside.def {
+	height: 100%;
+	-webkit-box-shadow: 0px 0px var(--shadow-size) 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px var(--shadow-size) 0px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px var(--shadow-size) 0px rgba(0,0,0,0.5);
+	min-width: 17px;
+	display: grid;
+	grid-auto-flow: row;
+	grid-auto-rows: max-content;
+	grid-row-gap: 2.5px;
+	background-color: var(--lcol-front);
+}
+
+main.def {
+	width: 100%;
+	height: 100%;
 }
