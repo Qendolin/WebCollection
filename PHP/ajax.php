@@ -26,7 +26,7 @@ case "validateChapta":
     ValidateChapta();
     break;
 default:
-    trigger_error("#error004|" . BasicTools::PostTest("type"), E_USER_ERROR);
+    trigger_error("e004|" . BasicTools::PostTest("type"), E_USER_ERROR);
 }
 function ValidateChapta() {
     echo EasyCurl::AskCurl("https://www.google.com/recaptcha/api/siteverify", "response=" . BasicTools::PostTest("response") . "&secret=6Lf2pGkUAAAAALZ2X-ZsflVbVb1mf9N7KuuZSvsA");
@@ -47,7 +47,7 @@ function Get() {
             // return something
             break;
         default:
-            trigger_error("#warning002|$array[$i]", E_USER_WARNING);
+            trigger_error("w002|$array[$i]", E_USER_WARNING);
             break;
         }
         if ($i + 1 != $length) {
@@ -66,7 +66,7 @@ function Put() {
             // save something
             break;
         default:
-            trigger_error("#warning002|$array[$i]", E_USER_WARNING);
+            trigger_error("w002|$array[$i]", E_USER_WARNING);
             break;
         }
         if ($i + 1 != $length) {

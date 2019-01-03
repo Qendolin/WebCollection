@@ -6,9 +6,10 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-const STANDARDDATABASE = 0;
-abstract class DatabaseQueryBase {
-     function AskDB() {
+
+abstract class DatabaseQueryBase implements IAuth{
+     const STANDARDDATABASE = 0;
+    public function AskDB() {
         $db = func_get_arg(0);
         $statement = func_get_arg(1);
         if (func_num_args() < 3) {
