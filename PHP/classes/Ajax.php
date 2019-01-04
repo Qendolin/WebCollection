@@ -6,7 +6,11 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-require $_SERVER['DOCUMENT_ROOT'] . "/PHP/main.php";
+class Ajax{
+
+
+
+    static function Run(){
 header("Cache-Control:no-cache,must-revalidate");
 
 switch (BasicTools::PostTest("type")) {
@@ -28,6 +32,10 @@ case "validateChapta":
 default:
     trigger_error("e004|" . BasicTools::PostTest("type"), E_USER_ERROR);
 }
+
+    }
+
+
 function ValidateChapta() {
     echo EasyCurl::AskCurl("https://www.google.com/recaptcha/api/siteverify", "response=" . BasicTools::PostTest("response") . "&secret=6Lf2pGkUAAAAALZ2X-ZsflVbVb1mf9N7KuuZSvsA");
 }
@@ -78,4 +86,5 @@ function Put() {
 
 function Login() {
     //fill in (login methode aufrufen)
-}
+}}
+
