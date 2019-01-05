@@ -1,17 +1,10 @@
 <?php
 
-/**
- *  Copyright ©2018
- *  Written by:
- *  Maximilian Mayrhofer
- *  Wendelin Muth
- */
 class Ajax implements IAjax{
 
-
+    private $chaptaSecret;//must be set somewhere
 
     static function Run(){
-header("Cache-Control:no-cache,must-revalidate");
 
 switch (BasicTools::PostTest("type")) {
 case "put":
@@ -37,11 +30,11 @@ default:
 
 
 function ValidateChapta() {
-    echo EasyCurl::AskCurl("https://www.google.com/recaptcha/api/siteverify", "response=" . BasicTools::PostTest("response") . "&secret=6Lf2pGkUAAAAALZ2X-ZsflVbVb1mf9N7KuuZSvsA");
+    echo $easycurl-> AskCurl("https://www.google.com/recaptcha/api/siteverify", "response=" . BasicTools::PostTest("response") . "&secret=$chaptaSecret");
 }
 
 function Logout() {
-    //fill in (logout methode aufrufen)
+    $auth->Logout();
 }
 
 function Get() {
@@ -50,9 +43,6 @@ function Get() {
     for ($i = 0; $i < $length; $i++) {
         switch ($array[$i]) {
         case "":
-            break;
-        case "something":
-            // return something
             break;
         default:
             trigger_error("w002|$array[$i]", E_USER_WARNING);
@@ -70,9 +60,6 @@ function Put() {
         switch ($array[$i]) {
         case "":
             break;
-        case "somthing":
-            // save something
-            break;
         default:
             trigger_error("w002|$array[$i]", E_USER_WARNING);
             break;
@@ -85,6 +72,6 @@ function Put() {
 
 
 function Login() {
-    //fill in (login methode aufrufen)
+    $auth->TryLogin( BasicTools::PostTest("id"), BasicTools::PostTest("password"));
 }}
 

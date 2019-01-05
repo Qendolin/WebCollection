@@ -6,129 +6,44 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-class Auth implements IAuth{
-    private  function Login($id, $password, $school, $save) {
+class Auth implements IAuth {
+    private function Login($id, $password) {
 
         self::Logout();
 
-        $_SESSION["timeoutVar"] = "set";
-
-        if (strtolower($school) == "emp") {
-            $id = mb_strtoupper($id, 'UTF-8');
-            if (MySecure::EmpLogin($id, $password)) {
-                if ($save) {
-                    self::SaveLogin($school, $id, $password);
-                }
-                return true;
+    }
+    public function TryLogin($id, $password, $save, $dontEcho = false, $additionalParameters = null) {
+        if (!self::Login($id, $password, $additionalParameters)) {
+            if ($dontEcho) {
+                return false;
+            } else {
+                trigger_error();
             }
-            return false;
         }
-
-        $_SESSION["server"] = WebUntis::GetServer($school);
-        $school = WebUntis::GetCorrectSchoolname($school);
-
-        if (null === $id) {
-            if (WebUntis::TestNoAccLogin($school)) {
-                $_SESSION["school"] = $school;
-
-                if ($save) {
-                    self::SaveLogin($school);
-                }
-                return true;
-            }
-            return false;
-        }
-        $id = mb_strtoupper($id, 'UTF-8');
-
-        if (!WebUntis::TestLogin($school, $id, $password)) {
-            return false;
-        }
-
-        $_SESSION["school"] = $school;
-        $_SESSION["user"] = $id;
-        $_SESSION["password"] = $password;
 
         if ($save) {
-            self::SaveLogin($school, $id, $password);
+            SaveLogin($id, $password, $additionalParameters);
         }
-        return true;
-    }
-    public  function TryLogin($id, $password, $school, $save, $dontEcho = false) {
-        if (self::Login($id, $password, $school, $save)) {
-            if (BasicTools::IsSenseful($_SESSION["user"])) {
 
-                $pInfo = WebUntis::GetPersonalInfo();
-                $pInfoDec = json_decode($pInfo, true);
-                if (true === $pInfoDec["data"]["isTeacher"]) {
-                    $_SESSION["isTeacher"] = true;
-                } else {
-                    $_SESSION["isTeacher"] = false;
-                }
-
-                $_SESSION["userId"] = $pInfoDec["data"]["loginServiceConfig"]["user"]["personId"] . "";
-
-                $result = DB_Query::AskDB(STANDARDDATABASE, "SELECT userRole from login_extraordinaries where school=? and userId=?", $_SESSION["school"], $_SESSION["userId"]);
-                if (count($result) > 0) {
-                    foreach ($result as $values) {
-                        if ("1" === $values["userRole"]) {
-                            $_SESSION["isBeta"] = true;
-                        }
-
-                        if ("2" === $values["userRole"]) {
-                            $_SESSION["isClassAdmin"] = true;
-                        }
-
-                    }
-                }
-
-                if (!BasicTools::IsSenseful($_SESSION["isClassAdmin"])) {
-                    $_SESSION["isClassAdmin"] = false;
-                }
-
-                if (!BasicTools::IsSenseful($_SESSION["isBeta"])) {
-                    $_SESSION["isBeta"] = false;
-                }
-
-                if ($dontEcho) {
-                    return $dontEcho;
-                }
-
-                return $pInfo;
-            } else {
-                if ($dontEcho) {
-                    return $dontEcho;
-                }
-
-                return "school:" . $_SESSION["school"];
-            }
-        } else {
-            if ($dontEcho) {
-                return !$dontEcho;
-            }
-
-            trigger_error("#error002", E_USER_ERROR);
-        }
     }
 
-    public  function SaveLogin($school, $id = null, $password = null) {
-        $usertest = DB_Query::AskDB(STANDARDDATABASE, "Select * from login_users where username= ?;", $school . $id);
-
+    public function SaveLogin($id, $password, $additionalParameters) {
+        $usertest = DB_Query::AskDB(STANDARDDATABASE, "Select * from login_users where username= ?;", $id);
+        $encryptKey = MySecure::MakeCode();
         if (count($usertest) > 0) {
             $encryptKey = $usertest[0]["encryptKey"];
-            MySecure::SetCookie("school", $school);
-            MySecure::SetCookie("id", $id);
-            MySecure::SetCookie("password", MySecure::Encrypt($password, $encryptKey));
         } else {
-            $encryptKey = MySecure::MakeCode();
-            DB_Query::AskDB(STANDARDDATABASE, "Insert into login_users values(null,?,?);", $school . $id, $encryptKey);
-            MySecure::SetCookie("school", $school);
-            MySecure::SetCookie("id", $id);
-            MySecure::SetCookie("password", MySecure::Encrypt($password, $encryptKey));
+            DB_Query::AskDB(STANDARDDATABASE, "Insert into login_users values(null,?,?);", $id, $encryptKey);
         }
+
+        MySecure::SetCookie("additionalParameters", $additionalParameters);
+        MySecure::SetCookie("id", $id);
+        MySecure::SetCookie("password", MySecure::Encrypt($password, $encryptKey));
+
     }
 
-    public  function Logout() {
-        setcookie("school", "", time() - 3600, "/");
+    public function Logout() {
+        setcookie("additionalParameters", "", time() - 3600, "/");
         setcookie("id", "", time() - 3600, "/");
         setcookie("password", "", time() - 3600, "/");
         if (session_status() != PHP_SESSION_NONE) {
@@ -137,30 +52,31 @@ class Auth implements IAuth{
             $_SESSION["timeoutVar"] = "set";
         }
     }
+public function TryRelogin(){
+    if (!self::ReLogin()) {
+        if ($dontEcho) {
+            return false;
+        } else {
+            trigger_error();
+        }
+    }
+}
 
-    public  function CookieLogin() {
-        if (!BasicTools::IsSenseful($_COOKIE["school"])) {
+    private function ReLogin() {
+        
+
+        if (!BasicTools::IsSenseful($_COOKIE["id"]) || !BasicTools::IsSenseful($_COOKIE["password"])|| !BasicTools::IsSenseful($_COOKIE["additionalParameters"])) {
             return false;
         }
 
-        if (!BasicTools::IsSenseful($_COOKIE["id"]) || !BasicTools::IsSenseful($_COOKIE["password"])) {
-            return self::TryLogin(null, null, MySecure::ReadCookie("school"), true, true);
-        }
-
-        $res = DB_Query::AskDB(STANDARDDATABASE, "Select * from login_users where username= ?;", MySecure::ReadCookie("school") . MySecure::ReadCookie("id"));
+        $res = DB_Query::AskDB(STANDARDDATABASE, "Select * from login_users where username= ?;", MySecure::ReadCookie("id"));
 
         if (!count($res) > 0) {
             return false;
         }
         $pw = MySecure::Decrypt(MySecure::ReadCookie("password"), $res[0]["encryptKey"]);
 
-        if (strtolower(MySecure::ReadCookie("school")) == "emp") {
-            if (MySecure::EmpLogin(MySecure::ReadCookie("id"), $pw)) {
-                self::SaveLogin(MySecure::ReadCookie("school"), MySecure::ReadCookie("id"), $pw);
-                return true;
-            }
-        }
-        return self::TryLogin(MySecure::ReadCookie("id"), $pw, MySecure::ReadCookie("school"), true, true);
+        return self::TryLogin(MySecure::ReadCookie("id"), $pw, true, true, MySecure::ReadCookie("additionalParameters"));
 
     }
 }

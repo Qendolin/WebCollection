@@ -38,8 +38,9 @@ version	        Any	                indicates the current version of Structural 
 
 
 class Api{
-
+    static $ajax;
     static $auth;
+    static $easyCurl;
     static $databaseQuery;
 
 
@@ -72,7 +73,7 @@ class Api{
      * $auth an object of a class implementing IAuth
      * $databaseQueryBase an object of a class implementing IDatabaseQuery
      */
- static public function Start($auth,$databaseQueryBase){
+ static public function Start($auth=null,$databaseQueryBase=null,$databaseQuery=null,$ajax=null){
  if(!session_status()==PHP_SESSION_ACTIVE)
     session_start();
     
@@ -85,6 +86,12 @@ class Api{
             BasicTools::Log("[SessionTimeout]" . session_id());
             trigger_error("#error003", E_USER_ERROR);
         }
+    }
+
+
+
+    if($ajax){
+        $ajax->Run();
     }
  }
 
