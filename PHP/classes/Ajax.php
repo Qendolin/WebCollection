@@ -6,7 +6,7 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-class Ajax{
+class Ajax implements IAjax{
 
 
 

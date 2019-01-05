@@ -1,6 +1,6 @@
 <?php
 
-class DB_Requests {
+class DB_Requests implements IDataBaseRequests{
     public  function GetMessages($type, $count, $seen) {
         if (!MySecure::IsAllowed(5)) {
             trigger_error("#error025", E_USER_ERROR);

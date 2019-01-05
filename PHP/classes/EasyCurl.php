@@ -6,7 +6,7 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-class EasyCurl {
+class EasyCurl implements IEasyCurl{
     private  $curl = null;
 
     public  function AskCurl($url, $post = null) {

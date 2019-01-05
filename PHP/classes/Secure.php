@@ -6,7 +6,7 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-class MySecure {
+class Secure implements ISecure {
     /**
      * ranks:
      * 0 nothing

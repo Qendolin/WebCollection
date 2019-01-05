@@ -12,4 +12,3 @@ interface IAuth {
     public function Logout();
     public function TryRelogin();
 }
-$a = new AuthBase();

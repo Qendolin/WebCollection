@@ -10,5 +10,5 @@ interface IDatabaseQuery {
      * opt fifth: the third parameter of the query
      * and so on and so on
      */
-    public function AskDB();
+    public function AskDB();//AskDB($db,$statement,$params|$param1,$param2,...)
 }

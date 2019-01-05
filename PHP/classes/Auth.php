@@ -6,7 +6,7 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-class Auth {
+class Auth implements IAuth{
     private  function Login($id, $password, $school, $save) {
 
         self::Logout();

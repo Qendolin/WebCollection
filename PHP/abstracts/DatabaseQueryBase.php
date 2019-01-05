@@ -7,7 +7,7 @@
  *  Wendelin Muth
  */
 
-abstract class DatabaseQueryBase implements IAuth{
+abstract class DatabaseQueryBase implements IDataBaseQuery{
      const STANDARDDATABASE = 0;
     public function AskDB() {
         $db = func_get_arg(0);
@@ -78,11 +78,11 @@ abstract class DatabaseQueryBase implements IAuth{
         }
     }
 
-    abstract protected  function OpenConn($db=0);
+    abstract protected function OpenConn($db=0);
     /* {
         $conn = new PDO('mysql:host=localhost;dbname=dbname', 'username', 'password');
         if (!$conn) {
-            trigger_error("#error005", E_USER_ERROR);
+            //error
         }
         return $conn;
     }*/

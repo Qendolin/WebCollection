@@ -6,7 +6,7 @@
  *  Maximilian Mayrhofer
  *  Wendelin Muth
  */
-class Notifications {
+class Notifications implements INotifications {
 
     private $appId ;
     private $standardIcon;
