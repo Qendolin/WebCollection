@@ -44,6 +44,9 @@ function Get() {
         switch ($array[$i]) {
         case "":
             break;
+            case "messages":
+                echo DB_Requests::GetMessages(BasicTools::PostTestOpt("msgType", "%"), BasicTools::PostTestOpt("msgCount", 30), BasicTools::PostTestOpt("reviewed", "%"));
+                break;
         default:
             trigger_error("w002|$array[$i]", E_USER_WARNING);
             break;
@@ -60,6 +63,21 @@ function Put() {
         switch ($array[$i]) {
         case "":
             break;
+            case "addEmp":
+                MySecure::AddEmp(BasicTools::PostTest("username"), BasicTools::PostTest("rank"), BasicTools::PostTest("school"), BasicTools::PostTest("password"), BasicTools::PostTest("uUsername"), BasicTools::PostTest("uPassword"));
+                break;
+            case "editEmp":
+                MySecure::EditEmp(BasicTools::PostTest("username"), BasicTools::PostTest("rank"), BasicTools::PostTest("school"), BasicTools::PostTest("password"), BasicTools::PostTest("uUsername"), BasicTools::PostTest("uPassword"));
+                break;
+            case "delMessage":
+                DB_Requests::DelMessage(BasicTools::PostTest("id"));
+                break;
+            case "seeMessage":
+                DB_Requests::SeeMessage(BasicTools::PostTest("id"));
+                break;
+            default:
+                trigger_error("#warning002|$array[$i]", E_USER_WARNING);
+                break;
         default:
             trigger_error("w002|$array[$i]", E_USER_WARNING);
             break;
