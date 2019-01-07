@@ -75,9 +75,6 @@ function Put() {
             case "seeMessage":
                 DB_Requests::SeeMessage(BasicTools::PostTest("id"));
                 break;
-            default:
-                trigger_error("#warning002|$array[$i]", E_USER_WARNING);
-                break;
         default:
             trigger_error("w002|$array[$i]", E_USER_WARNING);
             break;
