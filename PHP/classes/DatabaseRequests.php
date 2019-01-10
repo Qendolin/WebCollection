@@ -13,9 +13,9 @@ class DB_Requests implements IDataBaseRequests{
         echo json_encode($res, true);
     }
     public  function DelMessage($id){
-        //unfin
+        //unfin but in jptr
     }
     public  function SeeMessage($id){
-        //unfin
+        //unfin too
     }
 }

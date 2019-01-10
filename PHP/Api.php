@@ -40,8 +40,13 @@ version	        Any	                indicates the current version of Structural 
 class Api{
     static $ajax;
     static $auth;
-    static $easyCurl;
     static $databaseQuery;
+    static $databaseRequests;
+    static $easyCurl;
+    static $notifications;
+    static $secure;
+
+    
 
 
 
@@ -73,7 +78,7 @@ class Api{
      * $auth an object of a class implementing IAuth
      * $databaseQueryBase an object of a class implementing IDatabaseQuery
      */
- static public function Start($auth=null,$databaseQueryBase=null,$databaseQuery=null,$ajax=null){
+ static public function Start($ajax=null,$auth=null,$databaseQuery=null,$databaseRequests=null,$easyCurl=null,$notifications=null,$secure=null){
  if(!session_status()==PHP_SESSION_ACTIVE)
     session_start();
     
@@ -132,9 +137,6 @@ function BaseStart($link) {
         }
         
 
-        if (strpos($split, "settings") === 0) {
-            echo file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/DATA/settings.json");//fill in settings link
-        }
 
 
         if (strpos($split, "outercontent") === 0 && array_key_exists("outercontent", $htm)) {

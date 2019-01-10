@@ -8,7 +8,8 @@
  */
 set_error_handler("ErrorHandler", E_ALL);
 register_shutdown_function("FatalErrorHandler");
-
+const API_ERROR=256;
+const API_WARNING=512;
 function FatalErrorHandler() {
     BasicTools::Log("Time:", "time");
     $errfile = "unknown file";
@@ -41,14 +42,14 @@ function ErrorHandler($grad, $msg, $file, $line) {
         BasicTools::Log("[ErrorUnhandled]\nType:" . GetErrorType($grad) . "\nFile:" . $file . "\nLine:" . $line . "\nMsg:" . $msg, "pageLoad");
         return;
     }
-    if (strpos($msg, "#") === 0 && E_USER_ERROR == $grad) {
+    if (preg_match("/^\d\d\d/")!==false && E_USER_ERROR == $grad) {
         BasicTools::Log("[Errorhandled]\nType:" . GetErrorType($grad) . "\nFile:" . $file . "\nLine:" . $line . "\nMsg:" . $msg);
 
         http_response_code(700);
         die(GetErrorMsg($msg));
     }
 
-    if (strpos($msg, "#") === 0 && E_USER_WARNING == $grad) {
+    if (preg_match("/^\d\d\d/")!==false && E_USER_WARNING == $grad) {
         BasicTools::Log("[Errorhandled]\nType:" . GetErrorType($grad) . "\nFile:" . $file . "\nLine:" . $line . "\nMsg:" . $msg);
 
         http_response_code(710);
@@ -58,9 +59,9 @@ function ErrorHandler($grad, $msg, $file, $line) {
 
     $errortype = GetErrorType($grad);
     if (E_USER_ERROR == $grad || E_ERROR == $grad || E_PARSE == $grad || E_COMPILE_ERROR == $grad || E_CORE_ERROR == $grad || E_RECOVERABLE_ERROR == $grad) {
-        ErrorHandler(E_USER_ERROR, "#error000|Ein Fehler mit Grad $errortype ist aufgetreten.<br> Meldung: $msg <br> Datei: <b>$file</b> Zeile: <b>$line</b><br>", $file, $line);
+        ErrorHandler(E_USER_ERROR, "000|An apiforeign error with level $errortype was encountered.<br> Message: $msg", $file, $line);
     }
-    ErrorHandler(E_USER_WARNING, "#warning000|Eine Warnung ($errortype) ist aufgetreten.<br> Meldung: $msg <br> Datei: <b>$file</b> Zeile: <b>$line</b><br>", $file, $line);
+    ErrorHandler(E_USER_WARNING, "000|An apiforeign warning with level $errortype was encountered.<br> Message: $msg", $file, $line);
 }
 
 function GetErrorType($type) {
@@ -106,6 +107,15 @@ function GetErrorMsg($msg) {
         $data = $msgps[1];
     }
     $errorList = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/DATA/errorList.json"), true);
-    $errorList[$msg]["errorData"] = array($data);
+    $errorList[$msg]["errorData"] = $data;
     return json_encode($errorList[$msg], true);
+}
+function Error($type, $id, $data) {
+
+   
+    while(strlen($id."")<3){
+        $id="0".$id;
+    }
+    $bt=debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
+    ErrorHandler($type,$id."|".$data,$bt["file"],$bt["line"]);
 }
