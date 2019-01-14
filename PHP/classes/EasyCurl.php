@@ -98,7 +98,7 @@ class EasyCurl implements IEasyCurl{
         }
         return null;
     }
-}class TableChange {
+}class Change {
 
     
     public function __construct($timegrid, $timegridInfo) {
@@ -180,7 +180,4 @@ class EasyCurl implements IEasyCurl{
         Notifications::TableChangeNotification($res, $_SESSION["school"], $this->timegridInfo["date"], $this->timegridInfo["type"], $this->timegridInfo["tid"]);
         $this->DeleteOld();
     }
-
-    public  function AskForTables() { //
-        //asks for 3-5 foreign tables
-    }}
+}
