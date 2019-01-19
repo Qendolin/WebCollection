@@ -1,4 +1,4 @@
 <?php
 interface IAjax{
-    public function Run();
+    public function Run(): void;
 }

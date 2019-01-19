@@ -1,24 +1,25 @@
 <?php
-interface IForum{
+interface IForum {
 
-    public function NewThread(int $parentId,string $name,string $text,string $user);
+    public function NewThread(int $parentId, string $name, string $text, string $user): void;
 
-    public function DelThread(int $id);
+    public function DelThread(int $id): void;
 
-     public function NewComment(int $parentId,string $text,string $user);
- 
-     public function DelComment(int $id);
+    public function NewComment(int $parentId, string $text, string $user): void;
 
-     public function EditComment(int $parentId,string $text,string $user,int $id);
+    public function DelComment(int $id): void;
 
-     public function EditThread(int $parentId,string $name,string $text,string $user,int $id);
+    public function EditComment(int $parentId, string $text, string $user, int $id): void;
 
-     public function NewCat(int $parentId,string $name,bool $threads,int $neededRank);
+    public function EditThread(int $parentId, string $name, string $text, string $user, int $id): void;
 
-     public function EditCat(int $parentId,string $name,bool $threads,int $neededRank,int $id);
+    public function NewCat(int $parentId, string $name, bool $threads, int $neededRank): void;
 
-     public function DelCat(int $id);
+    public function EditCat(int $parentId, string $name, bool $threads, int $neededRank, int $id): void;
 
-    public function GetCat(int $id=0);
-    public function GetThread(int $id);
+    public function DelCat(int $id): void;
+
+    public function GetCat(int $id = 0): ForumCategory;
+
+    public function GetThread(int $id): ForumThread;
 }

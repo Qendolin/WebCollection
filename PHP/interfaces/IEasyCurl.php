@@ -1,4 +1,4 @@
 <?php
 interface IEasyCurl{
-  public function  AskCurl($url, $post=null,$cache=null,$usecache=null,$checkForUpdate=null);
+  public function  AskCurl(string $url,string $post=null,bool $cache=null,bool $usecache=null,bool $checkForUpdate=null): string;
 }

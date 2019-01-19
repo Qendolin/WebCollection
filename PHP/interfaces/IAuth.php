@@ -7,8 +7,8 @@
  *  Wendelin Muth
  */
 interface IAuth {
-    public function TryLogin($id, $password, $save, $dontEcho = false,$additionalParameters=null);
-    public function SaveLogin( $id = null, $password = null,$additionalParameters=null);
-    public function Logout();
-    public function TryRelogin();
+    public function TryLogin(string $ids,string $password,bool $save,bool $dontEcho = false,array $additionalParameters=null): bool;
+    public function SaveLogin(string $id = null, string$password = null,array $additionalParameters=null): bool;
+    public function Logout(): void;
+    public function TryRelogin(): bool;
 }

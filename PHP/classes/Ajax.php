@@ -4,6 +4,10 @@ class Ajax implements IAjax {
 
     protected $chaptaSecret; //must be set somewhere
 
+    public function __construct($chaptaSecret=null){
+
+    }
+
     public function Run() {
 
         switch (BasicTools::PostTest("type")) {
