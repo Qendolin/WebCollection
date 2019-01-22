@@ -78,7 +78,7 @@ class XElement extends HTMLElement {
 						oldValue = JSON.parse(oldValue)
 					} catch {
 						oldValue = def;
-					}x	
+					}
 				}
 				callback(name, namespace, value, oldValue, def)
 			}
@@ -93,12 +93,7 @@ class XSwitch extends XElement {
 	constructor() {
 		super();
 		this.shadow = this.attachShadow({mode: "open"})
-		this.shadow.appendChild(JSHN.parse({
-			input: {
-				type: "checkbox"
-			},
-			
-		}))
+		this.shadow.appendChild(document.getElementById("x-switch").content.cloneNode(true))
 	}
 }
 
