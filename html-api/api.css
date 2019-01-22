@@ -171,6 +171,11 @@ input[type=url]:focus, input[type=week]:focus {
 	border-bottom-color: var(--col-affirmative);
 }
 
+x-switch {
+	height: 26px;
+	width: calc(26px * 2.5);
+}
+
 .layout-border {
 	display: grid;
 	grid-template-areas: 

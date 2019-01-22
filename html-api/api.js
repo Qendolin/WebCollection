@@ -31,14 +31,88 @@ Math.clamp = function (value, min, max) {
 	return Math.min(Math.max(value, min), max)
 }
 
-class XScroll extends HTMLElement {
+class XElement extends HTMLElement {
+	constructor() {
+		super();
+		this._mutationObserver = new MutationObserver(onMutate)
+		this._mutationObserver.config = {childList = false, attributes = false, characterData = false, subtree = false, attributeOldValue = false, characterDataOldValue = false, attributeFilter = []};
+		this._mutationObserver.update = () => {
+			this._mutationObserver.disconnect()
+			this._mutationObserver.observe(this, this._mutationObserver.config)
+		}
+		this._mutationObserver.callbacks = {};
+	}
+
+	connectedCallback() {
+		this._mutationObserver.observe(this, this._mutationObserver.config)
+	}
+
+	disconnectedCallback() {
+		this._mutationObserver.disconnect()
+	}
+
+	_onMutate(records, observer) {
+		for(var i = 0; i < records.length; i++) {
+			var r = records[i]
+			if(r.type == "attributes") {
+				this._mutationObserver.callbacks[r.attributeName](r.attributeName, r.attributeNamespace, this.getAttribute(r.attributeName), r.oldValue);
+			}
+		}
+	}
+
+	observeAttribute(name, cast, def, callback) {
+		var cf = this._mutationObserver.config;
+		var af = cf.attributeFilter;
+		if(!af.includes(name)) {
+			af.push(name);
+			cf.attributes = true
+			cf.attributeOldValue = true
+			this._mutationObserver.callbacks[name] = (name, namespace, value, oldValue) => {
+				if(cast) {
+					try {
+						value = JSON.parse(value)
+					} catch {
+						value = def;
+					}
+					try {
+						oldValue = JSON.parse(oldValue)
+					} catch {
+						oldValue = def;
+					}x	
+				}
+				callback(name, namespace, value, oldValue, def)
+			}
+			this._mutationObserver.update();
+		}
+
+		return this.getAttribute(name);
+	}
+}
+
+class XSwitch extends XElement {
+	constructor() {
+		super();
+		this.shadow = this.attachShadow({mode: "open"})
+		this.shadow.appendChild(JSHN.parse({
+			input: {
+				type: "checkbox"
+			},
+			
+		}))
+	}
+}
+
+class XScroll extends XElement {
 	constructor() {
 		super();
 		if(__xapi.isTouch) {
 			this.style.overflow="auto";
 			return this;
 		}
-		this.inset = (this.getAttribute("data-scroll-inset") || "false") == "true" ? true:false;
+		this.inset = this.observeAttribute("data-scroll-inset", true, false, (name, _, value) => {
+			this.inset = typeof value == "boolean" ? value : false;
+		})
+		//this.inset = (this.getAttribute("data-scroll-inset") || "false") == "true" ? true:false;
 		this.scrollX = (this.getAttribute("data-scroll-x") || "false") == "true" ? true:false;
 		this.scrollY = (this.getAttribute("data-scroll-y") || "true") == "false" ? false:true;
 		if(this.scrollX) {
