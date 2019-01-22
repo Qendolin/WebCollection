@@ -34,7 +34,7 @@ Math.clamp = function (value, min, max) {
 class XElement extends HTMLElement {
 	constructor() {
 		super();
-		this._mutationObserver = new MutationObserver(onMutate)
+		this._mutationObserver = new MutationObserver(this.onMutate)
 		this._mutationObserver.config = {childList: false, attributes: false, characterData: false, subtree: false, attributeOldValue: false, characterDataOldValue: false, attributeFilter: []};
 		this._mutationObserver.update = () => {
 			this._mutationObserver.disconnect()
