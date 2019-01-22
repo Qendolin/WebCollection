@@ -320,6 +320,7 @@ class XScroll extends XElement {
 onload = () => {
 	WebComponents.waitFor(() => {
 		customElements.define("x-scroll", XScroll)
+		customElements.define("x-switch", XSwitch)
 	})
 }
 
