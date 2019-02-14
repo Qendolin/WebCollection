@@ -1,5 +1,5 @@
 var __xapi = {};
-{	
+(function () {	
 	var line = document.createElement("span")
 	line.textContent="M"
 	line.style.cssText = "line-height: normal !important;"+
@@ -11,7 +11,7 @@ var __xapi = {};
 	document.body.append(line);
 	__xapi.lineHeight = line.offsetHeight;
 	line.remove();
-}
+})()
 __xapi.isTouch = function() {
 	var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
 	var mq = function (query) {
@@ -26,6 +26,7 @@ __xapi.isTouch = function() {
 	isTouch = mq(query);
 	return isTouch;
 }()
+__xapi.html = document.getElementById("x-api").import;
 
 Math.clamp = function (value, min, max) {
 	return Math.min(Math.max(value, min), max)
@@ -93,7 +94,7 @@ class XSwitch extends XElement {
 	constructor() {
 		super();
 		this.shadow = this.attachShadow({mode: "open"})
-		this.shadow.appendChild(document.getElementById("x-switch").content.cloneNode(true))
+		this.shadow.appendChild(__xapi.html.getElementById("x-switch").content.cloneNode(true))
 	}
 }
 
