@@ -1,4 +1,27 @@
 <template id="x-switch">
+	<style>
+		input[type=checkbox] {
+			display: none;
+		}
+
+		input:checked + .slider {
+			background-color: var(--col-input-deco);
+		}
+
+		input:checked + .slider:before {
+			-webkit-transform: translateX(200%);
+			-ms-transform: translateX(200%);
+			transform: translateX(200%);
+		}
+		:host {
+			/*height = width / 2.5*/
+			/*width = height * 2.5*/
+			position: relative;
+			display: inline-block;
+			height: 21.86px;
+    		width: 54.66px;
+		}
+	</style>
 	<input type="checkbox">
-	<span></span>
+	<span class="slider"></span>
 </template>
