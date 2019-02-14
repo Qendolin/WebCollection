@@ -36,7 +36,6 @@ class XElement extends HTMLElement {
 	constructor() {
 		super();
 		this._mutationObserver = new MutationObserver(this._onMutate)
-		this._mutationObserver.config = {childList: false, attributes: false, characterData: false, subtree: false, attributeOldValue: false, characterDataOldValue: false};
 		this._mutationObserver.update = () => {
 			this._mutationObserver.disconnect()
 			this._mutationObserver.observe(this, this._mutationObserver.config)
@@ -45,7 +44,8 @@ class XElement extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this._mutationObserver.observe(this, this._mutationObserver.config)
+		if(this._mutationObserver.config != null)
+			this._mutationObserver.observe(this, this._mutationObserver.config)
 	}
 
 	disconnectedCallback() {
