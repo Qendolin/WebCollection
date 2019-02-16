@@ -90,11 +90,17 @@ class XElement extends HTMLElement {
 	}
 }
 
-class XSwitch extends XElement {
+class XSwitch extends HTMLLabelElement {
 	constructor() {
 		super();
 		this.shadow = this.attachShadow({mode: "open"})
 		this.shadow.appendChild(__xapi.html.getElementById("x-switch").content.cloneNode(true))
+		this.addEventListener("click", this.onclick)
+		this.value = false
+	}
+
+	onclick() {
+
 	}
 }
 
