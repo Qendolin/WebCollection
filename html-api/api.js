@@ -90,7 +90,7 @@ class XElement extends HTMLElement {
 	}
 }
 
-class XSwitch extends HTMLLabelElement {
+class XSwitch extends XElement {
 	constructor() {
 		super();
 		this.shadow = this.attachShadow({mode: "open"})
