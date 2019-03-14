@@ -53,13 +53,13 @@ window.addEventListener("load", function() {
 
 temple.__internal.log = function (arg) {
     if(temple.__internal.log.enabled) {
-        temple.__internal.log(arg)
+        console.log("[T] "+arg)
     }
 }
 
 temple.__internal.warn = function (arg) {
     if(temple.__internal.warn.enabled) {
-        temple.__internal.warn(arg)
+        console.warn("[T] "+arg)
     }
 }
 temple.__internal.warn.enabled = true
