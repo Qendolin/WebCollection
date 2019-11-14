@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Imgproc Test</title>
+		<style>
+			#canvas1,
+			#canvas2 {
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="module" src="../../img-proc/process.imgproc.js"></script>
+		<script type="module">
+			import CanvasTransformer from '../../img-proc/process.imgproc.js'
+			new CanvasTransformer(
+				'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAG2SURBVHhe7d0xMsVAAIDh9xxBTceMQusiKndwHndQuYhWYUap5gqI2QPwUsj6v69Jts6f2Uwyu9l/fNmRdTSORAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQNx0q4PfT8/H2TYcv76MszlNGcD15f0Y/a2Hp5vpAzAFxAkgTgBxAogTQJwA4gQQJ4A4AcQJIG7/dnJmp9Cw7wB++m59effNNh3yfWS5nr8O4OruYozYisfb54MD8AwQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIM7q4H9i1ergMSbIXsErLHeQvYKZmgDiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4fw5dyZ9DmZopIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBJC2230Cs09KuhJJ7W8AAAAASUVORK5CYII='
+			).then(x => {
+				window.img = x
+				document.body.appendChild(x._canvas[0])
+				x._canvas[0].id = 'canvas1'
+				document.body.appendChild(document.createElement('BR'))
+				document.body.appendChild(x._canvas[1])
+				x._canvas[1].id = 'canvas2'
+			})
+		</script>
+	</body>
+</html>
